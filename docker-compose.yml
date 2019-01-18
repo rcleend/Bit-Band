@@ -5,7 +5,7 @@ services:
     volumes:
       - .:/go/src/jr-game
     working_dir: /go/src/jr-game
-    command: go run main.go
+    command: go run github.com/rcleend/go-test/main.go
 
 
 
