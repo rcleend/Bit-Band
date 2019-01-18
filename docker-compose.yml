@@ -1,0 +1,12 @@
+version: '3.7'
+services:
+  app:
+    image: golang:1.11-alpine
+    volumes:
+      - .:/go/src/jr-game
+    working_dir: /go/src/jr-game
+    command: go run main.go
+
+
+
+
