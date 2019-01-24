@@ -2,41 +2,37 @@ package main
 
 import (
     "fmt"
-    "io/ioutil"
     "log"
     "net/http"
     "golang.org/x/net/websocket"
 )
 
-type Page struct {
-    Title string
-    Body []byte
-}
+func echo(ws *websocket.Conn) {
+    var err error
 
-func (p *Page) save() error {
-    filename := p.Title + ".txt"
-    return ioutil.WriteFile(filename, p.Body, 0600)
-}
+    for {
+        var reply string
 
-func loadPage(title string) (*Page, error) {
-    filename := title + ".txt"
-    body, err := ioutil.ReadFile(filename)
-    if err != nil {
-        return nil, err
+        if err = websocket.Message.Receive(ws, &reply); err != nil {
+            fmt.Println("Can't receive")
+            break
+        }
+
+        fmt.Println("Received back from client: " + reply)
+
+        msg := "Received:  " + reply
+        fmt.Println("Sending to client: " + msg)
+
+        if err = websocket.Message.Send(ws, msg); err != nil {
+             fmt.Println("Can't send")
+             break
+        }
     }
-    return &Page{Title: title, Body: body}, nil
-}
-
-func viewHandler(w http.ResponseWriter, r *http.Request) {
-    title := r.URL.Path[len("/view/"):]
-    p, _ := loadPage(title)
-    fmt.Fprintf(w, "<h1>%s</h1><div>%s</div>", p.Title, p.Body)
 }
 
 func main() {
-    http.HandleFunc("/view/", viewHandler)
-    log.Fatal(http.ListenAndServe(":8080", nil))
+    http.Handle("/", websocket.Handler(echo))
+    if err := http.ListenAndServe(":8080", nil); err != nil {
+        log.Fatal("ListenAndServe:", err)
+    }
 }
-
-
-
