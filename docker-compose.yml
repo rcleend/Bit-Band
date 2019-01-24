@@ -1,11 +1,13 @@
 version: '3.7'
 services:
-  app:
-    image: golang:1.11-alpine
-    volumes:
-      - .:/go/src/jr-game
-    working_dir: /go/src/jr-game
-    command: go run github.com/rcleend/go-test/main.go
+    app:
+        build: .
+        volumes:
+            - .:/go
+        ports: 
+            - 80:8080
+        working_dir: /go
+        command: go run cmd/socket.go
 
 
 
