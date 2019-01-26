@@ -19,6 +19,9 @@ func echo(ws *websocket.Conn) {
         }
 
         fmt.Println("Received back from client: " + reply)
+        if reply == "hoi" {
+            reply = "doei"
+        }
 
         msg := "Received:  " + reply
         fmt.Println("Sending to client: " + msg)
@@ -32,7 +35,7 @@ func echo(ws *websocket.Conn) {
 
 func main() {
     http.Handle("/", websocket.Handler(echo))
-    if err := http.ListenAndServe(":8080", nil); err != nil {
+    if err := http.ListenAndServe(":80", nil); err != nil {
         log.Fatal("ListenAndServe:", err)
     }
 }
