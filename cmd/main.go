@@ -7,8 +7,15 @@ import (
     "golang.org/x/net/websocket"
 )
 
+type player struct {
+    id int
+    x int
+    y int
+}
+
 func echo(ws *websocket.Conn) {
     var err error
+    player1:= player{1, 50, 50}
 
     for {
         var reply string
@@ -39,3 +46,7 @@ func main() {
         log.Fatal("ListenAndServe:", err)
     }
 }
+
+
+
+

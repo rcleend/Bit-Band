@@ -1,11 +1,18 @@
 version: '3.7'
 services:
-    app:
-        build: .
+    api:
+        build: . 
         volumes:
             - .:/go/src/jr-game
         ports: 
             - 80:80
         working_dir: /go/src/jr-game
         command: go run cmd/main.go
+    app:
+        build: ./app
+        volumes:
+            - ./app:/usr/share/nginx/html
+        ports:
+            - 8080:80
+        working_dir: /usr/share/nginx/html
 
