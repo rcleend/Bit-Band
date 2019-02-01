@@ -5,7 +5,7 @@ services:
         volumes:
             - .:/go/src/jr-game
         ports: 
-            - 80:80
+            - 8080:8080
         working_dir: /go/src/jr-game
         command: go run cmd/main.go
     app:
@@ -13,6 +13,6 @@ services:
         volumes:
             - ./app:/usr/share/nginx/html
         ports:
-            - 8080:80
+            - 80:80
         working_dir: /usr/share/nginx/html
 

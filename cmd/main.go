@@ -15,7 +15,6 @@ type player struct {
 
 func echo(ws *websocket.Conn) {
     var err error
-    player1:= player{1, 50, 50}
 
     for {
         var reply string
@@ -42,7 +41,7 @@ func echo(ws *websocket.Conn) {
 
 func main() {
     http.Handle("/", websocket.Handler(echo))
-    if err := http.ListenAndServe(":80", nil); err != nil {
+    if err := http.ListenAndServe(":8080", nil); err != nil {
         log.Fatal("ListenAndServe:", err)
     }
 }
