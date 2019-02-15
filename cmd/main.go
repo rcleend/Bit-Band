@@ -1,51 +1,55 @@
 package main
 
 import (
-    "fmt"
-    "log"
-    "net/http"
-    "golang.org/x/net/websocket"
+	"fmt"
+	"log"
+	"net/http"
+
+	"golang.org/x/net/websocket"
 )
 
-type player struct {
-    id int
-    x int
-    y int
+var allClients map[*Client]int
+
+type Client struct {
+	conn websocket.Conn
 }
 
-func echo(ws *websocket.Conn) {
-    var err error
+func newClient(connection websocket.Conn) *Client {
+	client := &Client{
+		conn: connection,
+	}
+	return client
+}
 
-    for {
-        var reply string
+func handle(ws *websocket.Conn) {
+	var err error
+	client := newClient(*ws)
+	allClients[client] = 1
 
-        if err = websocket.Message.Receive(ws, &reply); err != nil {
-            fmt.Println("Can't receive")
-            break
-        }
+	for {
+		var reply string
 
-        fmt.Println("Received back from client: " + reply)
-        if reply == "hoi" {
-            reply = "doei"
-        }
+		if err = websocket.Message.Receive(&client.conn, &reply); err != nil {
+			fmt.Println("Can't receive")
+			delete(allClients, client)
+			break
+		}
 
-        msg := "Received:  " + reply
-        fmt.Println("Sending to client: " + msg)
+		for clientList, _ := range allClients {
+			if err = websocket.Message.Send(&clientList.conn, reply); err != nil {
+				fmt.Println("Can't send")
+				break
+			}
+		}
+		fmt.Println(len(allClients))
 
-        if err = websocket.Message.Send(ws, msg); err != nil {
-             fmt.Println("Can't send")
-             break
-        }
-    }
+	}
 }
 
 func main() {
-    http.Handle("/", websocket.Handler(echo))
-    if err := http.ListenAndServe(":8080", nil); err != nil {
-        log.Fatal("ListenAndServe:", err)
-    }
+	allClients = make(map[*Client]int)
+	http.Handle("/", websocket.Handler(handle))
+	if err := http.ListenAndServe(":8080", nil); err != nil {
+		log.Fatal("ListenAndServe:", err)
+	}
 }
-
-
-
-
