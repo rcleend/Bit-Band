@@ -1,0 +1,42 @@
+@import './utils/utils.scss';
+
+@import "./components/headers/header--primary.scss";
+@import "./components/headers/header--secondary.scss";
+@import "./components/headers/header--tertiary.scss";
+
+@import "./components/footer.scss";
+
+* {
+    font-family: 'PressStart2P', cursive;
+    color: white;
+
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #121212;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='79' height='79' viewBox='0 0 100 100'%3E%3Crect x='0' y='0' width='95' height='95' fill='%23000000'/%3E%3C/svg%3E");
+    background-position: center center;
+
+    height: 100%;
+}
+
+main {
+    min-height: 100%;
+}
+
+
+
+.header--container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+
+
+

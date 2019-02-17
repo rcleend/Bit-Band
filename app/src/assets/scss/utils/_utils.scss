@@ -1,0 +1,20 @@
+@import './utils/fonts.scss';
+@import './utils/colors.scss';
+@import './utils/mixins.scss';
+@import './utils/keyframes.scss';
+
+$breakpoints: (
+    mobile: 800px,
+    tablet: 1000px,
+    laptop: 1300px
+);
+
+$spacing-y: (
+    xs: 2vh,
+    sm: 5vh,
+    md: 7vh,
+    lg: 10vh,
+    xl: 30vh
+);
+
+

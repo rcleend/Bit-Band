@@ -1,0 +1,75 @@
+/** ANIMATIONS **/
+@include keyframes(blink) {
+    0% {
+        opacity: 0;
+    }
+    49% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@include keyframes(loading) {
+    0% {
+        content: '';
+    }
+    25% {
+        content: '.';
+    }
+    50% {
+        content: '..';
+    }
+    75% {
+        content: '...';
+    }
+}
+
+/** STYLING **/
+.header--tertiary {
+    width: 100%;
+    color: white;
+    font-size: 25px;
+
+    margin: map-get($spacing-y, md ) 0 0;
+
+    @include set-style(tablet){
+        font-size: initial;
+    }
+}
+
+.header--tertiary-alert {
+    color: $clr--primary-red;
+    font-size: 30px;
+    opacity: 0;
+
+    animation: blink 3s infinite linear;
+    animation-delay: 1s;
+
+    @include set-style(tablet){
+        font-size: 25px;
+    }
+}
+
+.header--tertiary-loading {
+    &::after {
+        content:'';
+        animation: loading 3s infinite linear;
+    }
+    &::before {
+        content: '';
+        color: black;
+        animation: loading 3s infinite linear;
+    }
+}
+
+.header--tertiary-title_screen {
+    opacity: 0;
+    animation: show 1s linear;
+    animation-fill-mode: forwards;
+    animation-delay: 2.5s;
+}
