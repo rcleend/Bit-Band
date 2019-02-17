@@ -27,7 +27,17 @@ module.exports = ( env, options ) => {
 						"css-loader",
 						"sass-loader"
 					]
-				}
+				},
+       			{
+         			"test": /\.(eot|woff|woff2|svg|ttf)([\?]?.*)$/,
+         			"use": [{
+						 "loader":"file-loader",
+						 "options": {
+								"name": "[name].[ext]",
+								"outputPath": "fonts/"
+						 }
+					 }]
+       			},
 			]
 		}
 	}
