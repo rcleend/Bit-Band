@@ -1,75 +1,28 @@
 /** ANIMATIONS **/
 @include keyframes(arrow-wobble-before) {
-    0% {
+    0%, 24%, 100% {
         margin-right: 0;
     }
-    19% {
-        margin-right: 0;
-    }
-    20% {
+    25%, 49%, 75%, 99% {
         margin-right: 12px;
     }
-    39% {
-        margin-right: 12px;
-    }
-    40% {
+    50%, 74% {
         margin-right: 24px;
-    }
-    59% {
-        margin-right: 24px;
-    }
-    60% {
-        margin-right: 24px;
-    }
-    79% {
-        margin-right: 24px;
-    }
-    80% {
-        margin-right: 12px;
-    }
-    99% {
-        margin-right: 12px;
-    }
-    100% {
-        margin-right: 0px;
     }
 }
 
 @include keyframes(arrow-wobble-after) {
-    0% {
+    0%, 24%, 100% {
         margin-left: 0;
     }
-    19% {
-        margin-left: 0;
-    }
-    20% {
+    25%, 49%, 75%, 99% {
         margin-left: 12px;
     }
-    39% {
-        margin-left: 12px;
-    }
-    40% {
+    50%, 74% {
         margin-left: 24px;
-    }
-    59% {
-        margin-left: 24px;
-    }
-    60% {
-        margin-left: 24px;
-    }
-    79% {
-        margin-left: 24px;
-    }
-    80% {
-        margin-left: 12px;
-    }
-    99% {
-        margin-left: 12px;
-    }
-    100% {
-        margin-left: 0px;
     }
 }
+
 /** MIXINS **/
 @mixin pseudo--header_secondary-span($content, $clr-primary, $clr-secondary) {
     &::before,
@@ -113,12 +66,12 @@
     animation-fill-mode: forwards;
 
     .header--secondary-span_before {
-        animation: arrow-wobble-before 0.4s linear 2;
+        animation: arrow-wobble-before 0.5s linear 2;
         animation-delay: 0.5s;
     }
 
     .header--secondary-span_after {
-        animation: arrow-wobble-after 0.4s linear 2;
+        animation: arrow-wobble-after 0.5s linear 2;
         animation-delay: 0.5s;
     }
 }

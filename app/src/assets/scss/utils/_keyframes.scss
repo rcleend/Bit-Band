@@ -1,32 +1,17 @@
 @include keyframes(show){
-    0% {
+    0%, 19% {
         opacity: 0;
     }
-    19% {
-        opacity: 0;
-    }
-    20% {
+    20%, 39% {
         opacity: 0.2;
     }
-    39% {
-        opacity: 0.2;
-    }
-    40% {
+    40%, 59% {
         opacity: 0.4;
     }
-    59% {
-        opacity: 0.4;
-    }
-    60% {
+    60%, 79% {
         opacity: 0.6;
     }
-    79% {
-        opacity: 0.6;
-    }
-    80% {
-        opacity: 0.8;
-    }
-    99% {
+    80%, 99% {
         opacity: 0.8;
     }
     100% {

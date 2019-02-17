@@ -47,8 +47,8 @@
     font-size: 30px;
     opacity: 0;
 
-    animation: blink 3s infinite linear;
-    animation-delay: 1s;
+    animation: blink 2.5s infinite linear;
+    animation-delay: 2s;
 
     @include set-style(tablet){
         font-size: 25px;
@@ -58,12 +58,12 @@
 .header--tertiary-loading {
     &::after {
         content:'';
-        animation: loading 3s infinite linear;
+        animation: loading 2.5s infinite linear;
     }
     &::before {
         content: '';
         color: black;
-        animation: loading 3s infinite linear;
+        animation: loading 2.5s infinite linear;
     }
 }
 
@@ -71,5 +71,5 @@
     opacity: 0;
     animation: show 1s linear;
     animation-fill-mode: forwards;
-    animation-delay: 2.5s;
+    animation-delay: 1.5s;
 }
