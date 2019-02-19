@@ -1,0 +1,68 @@
+/** COLORS **/
+.text--primary-yellow {
+    color: $clr--primary-yellow !important;
+}
+
+.text--primary-red {
+    color: $clr--primary-red !important;
+}
+
+.text--primary-blue {
+    color: $clr--primary-blue !important;
+}
+
+.text--secondary-purple {
+    color: $clr--secondary-purple !important;
+}
+
+.text--secondary-pink {
+    color: $clr--secondary-pink !important;
+}
+
+.bg--primary-yellow {
+    background: $clr--primary-yellow !important;
+}
+
+.bg--primary-red {
+    background: $clr--primary-red !important;
+}
+
+.bg--primary-blue {
+    background: $clr--primary-blue !important;
+}
+
+.bg--secondary-purple {
+    background: $clr--secondary-purple !important;
+}
+
+.bg--secondary-pink {
+    background: $clr--secondary-pink !important;
+}
+
+/** SPACING **/
+.spacing-y--xs {
+    margin-top: map-get($spacing-y, xs );
+}
+
+.spacing-y--sm {
+    margin-top: map-get($spacing-y, sm );
+}
+
+.spacing-y--md {
+    margin-top: map-get($spacing-y, md );
+}
+
+.spacing-y--lg {
+    margin-top: map-get($spacing-y, lg );
+}
+
+.spacing-y--xl {
+    margin-top: map-get($spacing-y, xl );
+}
+
+//** WIDTH **//
+.width--full {
+    flex: 1 1 100%;
+}
+
+

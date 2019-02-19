@@ -1,5 +1,13 @@
+
+import Vue from 'vue'
+import App from './app.vue'
+
 import Tone from 'tone'
-import './assets/scss/main.scss'
+
+new Vue({
+  el: '#app',
+  render: h => h(App),
+})
 
 // Configure websocket uri and websocket functions
 let wsuri = "ws://127.0.0.1:8080"

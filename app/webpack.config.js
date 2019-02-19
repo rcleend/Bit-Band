@@ -1,6 +1,8 @@
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+
 module.exports = ( env, options ) => {
 	return {
-		"mode": "development",
+		"mode": "production",
 		"entry": "./src/index.js",
 		"output": {
 			"path": __dirname+'/public/assets/js',
@@ -8,6 +10,10 @@ module.exports = ( env, options ) => {
 		},
 		"module": {
 			"rules": [
+				{
+					"test": /\.vue$/,
+					"loader": "vue-loader"
+				},
 				{
 					"test": /\.js$/,
 					"exclude": /node_modules/,
@@ -23,22 +29,20 @@ module.exports = ( env, options ) => {
 				{
 					"test": /\.scss$/,
 					"use": [
-						"style-loader",
+						"vue-style-loader",
 						"css-loader",
-						"sass-loader"
+						{
+							"loader": "sass-loader",
+							"options": {
+								"data": `@import "./src/assets/scss/_global.scss";`
+							}
+						}
 					]
-				},
-       			{
-         			"test": /\.(eot|woff|woff2|svg|ttf)([\?]?.*)$/,
-         			"use": [{
-						 "loader":"file-loader",
-						 "options": {
-								"name": "[name].[ext]",
-								"outputPath": "fonts/"
-						 }
-					 }]
-       			},
+				}
 			]
-		}
+		},
+		plugins: [
+			new VueLoaderPlugin()
+		]
 	}
 }	

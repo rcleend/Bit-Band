@@ -19,10 +19,13 @@
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "url-loader": "^1.1.2",
+    "vue-loader": "^15.6.2",
+    "vue-template-compiler": "^2.6.6",
     "webpack": "^4.29.0",
     "webpack-cli": "^3.2.1"
   },
   "dependencies": {
-    "tone": "^13.4.9"
+    "tone": "^13.4.9",
+    "vue": "^2.6.6"
   }
 }
