@@ -1,15 +1,13 @@
+/** GLOBAL IMPORTS **/
 import './assets/scss/index.scss';
+import Tone from 'tone'
 import Vue from 'vue'
 import App from './assets/templates/app.vue'
 
-import Tone from 'tone'
+// TODO: remove when in production
+Vue.config.devtools = true;
 
-new Vue({
-  el: '#app',
-  render: h => h(App),
-})
-
-// Configure websocket uri and websocket functions
+/** INIT WEBSOCKET **/
 let wsuri = "ws://127.0.0.1:8080"
 let sock = new WebSocket(wsuri)
 
@@ -21,8 +19,13 @@ sock.onmessage = (e) => {
     console.log("Message received")
 }
 
-// Tone.js Synth initialization
+/** INIT VUE **/
+new Vue({
+  el: '#app',
+  render: h => h(App),
+})
 
+/** INIT TONE.JS **/
 Tone.Transport.start();
 const synth = new Tone.Synth().toMaster();
 
