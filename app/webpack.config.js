@@ -1,7 +1,10 @@
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
-const ExtactTextPlugin = require('extract-text-webpack-plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
-const ExtractSASS = new ExtactTextPlugin('css/styles.css')
+// This Plugin is used to output seperate CSS files
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+// This Plugin is used to minify the outputted CSS files
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = ( env, options ) => {
 	return {
@@ -9,7 +12,7 @@ module.exports = ( env, options ) => {
 		"entry": "./src/index.js",
 		"output": {
 			"path": __dirname+'/public/assets/',
-			"filename": "js/app.js"
+			"filename": "js/app.min.js"
 		},
 		"module": {
 			"rules": [
@@ -31,16 +34,17 @@ module.exports = ( env, options ) => {
 				},
 				{
 					"test": /\.scss$/,
-					"use": ExtractSASS.extract([
+					"use": ExtractTextPlugin.extract([
 						"css-loader",
-					 	"sass-loader"
-					])  
+						'sass-loader',
+					])	
 				}
 			]
 		},
 		plugins: [
 			new VueLoaderPlugin(),
-			ExtractSASS
+			new ExtractTextPlugin('css/styles.min.css'),
+			new OptimizeCssAssetsPlugin()
 		]
 	}
 }	
