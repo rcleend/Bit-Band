@@ -1,0 +1,391 @@
+/** GLOBAL STYLING UTIL IMPORTS **/
+/** 
+*   This mixin is for device specific (responsive) styling.
+*   See _config.scss for the available devices/breakpoints.
+**/
+/** 
+*   This mixin is the auto generate browser specific keyframes
+**/
+@font-face {
+  font-family: PressStart2P;
+  src: url(/src/assets/fonts/PressStart2P-Regular.ttf); }
+
+@keyframes show {
+  0%, 19% {
+    opacity: 0; }
+  20%, 39% {
+    opacity: 0.2; }
+  40%, 59% {
+    opacity: 0.4; }
+  60%, 79% {
+    opacity: 0.6; }
+  80%, 99% {
+    opacity: 0.8; }
+  100% {
+    opacity: 1; } }
+
+@-webkit-keyframes show {
+  0%, 19% {
+    opacity: 0; }
+  20%, 39% {
+    opacity: 0.2; }
+  40%, 59% {
+    opacity: 0.4; }
+  60%, 79% {
+    opacity: 0.6; }
+  80%, 99% {
+    opacity: 0.8; }
+  100% {
+    opacity: 1; } }
+
+@-moz-keyframes show {
+  0%, 19% {
+    opacity: 0; }
+  20%, 39% {
+    opacity: 0.2; }
+  40%, 59% {
+    opacity: 0.4; }
+  60%, 79% {
+    opacity: 0.6; }
+  80%, 99% {
+    opacity: 0.8; }
+  100% {
+    opacity: 1; } }
+
+@-ms-keyframes show {
+  0%, 19% {
+    opacity: 0; }
+  20%, 39% {
+    opacity: 0.2; }
+  40%, 59% {
+    opacity: 0.4; }
+  60%, 79% {
+    opacity: 0.6; }
+  80%, 99% {
+    opacity: 0.8; }
+  100% {
+    opacity: 1; } }
+
+/** COLORS **/
+.text--primary-yellow {
+  color: #EDD241 !important; }
+
+.text--primary-red {
+  color: #BF3F3F !important; }
+
+.text--primary-blue {
+  color: #617BFF !important; }
+
+.text--secondary-purple {
+  color: #C050EC !important; }
+
+.text--secondary-pink {
+  color: #D251B8 !important; }
+
+.bg--primary-yellow {
+  background: #EDD241 !important; }
+
+.bg--primary-red {
+  background: #BF3F3F !important; }
+
+.bg--primary-blue {
+  background: #617BFF !important; }
+
+.bg--secondary-purple {
+  background: #C050EC !important; }
+
+.bg--secondary-pink {
+  background: #D251B8 !important; }
+
+/** SPACING **/
+.spacing-y--xs {
+  margin-top: 2vh; }
+
+.spacing-y--sm {
+  margin-top: 5vh; }
+
+.spacing-y--md {
+  margin-top: 7vh; }
+
+.spacing-y--lg {
+  margin-top: 10vh; }
+
+.spacing-y--xl {
+  margin-top: 30vh; }
+
+.width--full {
+  flex: 1 1 100%; }
+
+/** VUE COMPONENT STYLING IMPORTS **/
+* {
+  font-family: 'PressStart2P', cursive;
+  color: white;
+  margin: 0;
+  padding: 0; }
+
+body {
+  background-color: #121212;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='79' height='79' viewBox='0 0 100 100'%3E%3Crect x='0' y='0' width='95' height='95' fill='%23000000'/%3E%3C/svg%3E");
+  background-position: center center;
+  height: 100%; }
+
+main {
+  min-height: 100vh; }
+
+footer {
+  height: 50px;
+  margin-top: -50px;
+  text-align: center; }
+
+.header--container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  text-align: center; }
+
+/** MIXINS **/
+/** STYLING **/
+.main-title {
+  color: #EDD241;
+  letter-spacing: 10px;
+  position: relative; }
+  .main-title::after {
+    content: 'BIT BAND';
+    color: #BF3F3F;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 10;
+    z-index: -1;
+    white-space: nowrap; }
+  .main-title::before {
+    content: 'BIT BAND';
+    color: #617BFF;
+    position: absolute;
+    width: 100%;
+    top: -5;
+    left: 4;
+    z-index: -1;
+    white-space: nowrap; }
+
+.main-title_fade-in {
+  opacity: 0;
+  animation: show 0.5s linear;
+  animation-fill-mode: forwards; }
+
+.main-title_large {
+  font-size: 90px; }
+  @media (min-width: 1000px) {
+    .main-title_large {
+      font-size: 90px; } }
+  @media (min-width: 1300px) {
+    .main-title_large {
+      font-size: 110px; } }
+
+.main-title_medium {
+  font-size: 80; }
+
+/** ANIMATIONS **/
+@keyframes arrow-wobble-before {
+  0%, 24%, 100% {
+    margin-right: 0; }
+  25%, 49%, 75%, 99% {
+    margin-right: 12px; }
+  50%, 74% {
+    margin-right: 24px; } }
+
+@-webkit-keyframes arrow-wobble-before {
+  0%, 24%, 100% {
+    margin-right: 0; }
+  25%, 49%, 75%, 99% {
+    margin-right: 12px; }
+  50%, 74% {
+    margin-right: 24px; } }
+
+@-moz-keyframes arrow-wobble-before {
+  0%, 24%, 100% {
+    margin-right: 0; }
+  25%, 49%, 75%, 99% {
+    margin-right: 12px; }
+  50%, 74% {
+    margin-right: 24px; } }
+
+@-ms-keyframes arrow-wobble-before {
+  0%, 24%, 100% {
+    margin-right: 0; }
+  25%, 49%, 75%, 99% {
+    margin-right: 12px; }
+  50%, 74% {
+    margin-right: 24px; } }
+
+@keyframes arrow-wobble-after {
+  0%, 24%, 100% {
+    margin-left: 0; }
+  25%, 49%, 75%, 99% {
+    margin-left: 12px; }
+  50%, 74% {
+    margin-left: 24px; } }
+
+@-webkit-keyframes arrow-wobble-after {
+  0%, 24%, 100% {
+    margin-left: 0; }
+  25%, 49%, 75%, 99% {
+    margin-left: 12px; }
+  50%, 74% {
+    margin-left: 24px; } }
+
+@-moz-keyframes arrow-wobble-after {
+  0%, 24%, 100% {
+    margin-left: 0; }
+  25%, 49%, 75%, 99% {
+    margin-left: 12px; }
+  50%, 74% {
+    margin-left: 24px; } }
+
+@-ms-keyframes arrow-wobble-after {
+  0%, 24%, 100% {
+    margin-left: 0; }
+  25%, 49%, 75%, 99% {
+    margin-left: 12px; }
+  50%, 74% {
+    margin-left: 24px; } }
+
+/** MIXINS **/
+/** STYLING **/
+.sub-title {
+  color: #C050EC;
+  text-shadow: 2px -2px 0px #617BFF; }
+  .sub-title .sub-title_span-before,
+  .sub-title .sub-title_span-after {
+    color: #C050EC; }
+  .sub-title .sub-title_span-before::before, .sub-title .sub-title_span-before::after {
+    content: ">"; }
+  .sub-title .sub-title_span-before::before {
+    color: #617BFF; }
+  .sub-title .sub-title_span-before::after {
+    color: #D251B8; }
+  .sub-title .sub-title_span-after::before, .sub-title .sub-title_span-after::after {
+    content: "<"; }
+  .sub-title .sub-title_span-after::before {
+    color: #D251B8; }
+  .sub-title .sub-title_span-after::after {
+    color: #617BFF; }
+
+.sub-title_fade-in {
+  opacity: 0;
+  animation: show 0.5s linear;
+  animation-fill-mode: forwards; }
+  .sub-title_fade-in .sub-title_span-before {
+    animation: arrow-wobble-before 0.5s linear 2;
+    animation-delay: 0.5s; }
+  .sub-title_fade-in .sub-title_span-after {
+    animation: arrow-wobble-after 0.5s linear 2;
+    animation-delay: 0.5s; }
+
+.sub-title_large {
+  font-size: 33px; }
+  @media (min-width: 1000px) {
+    .sub-title_large {
+      font-size: 36px; } }
+  @media (min-width: 1300px) {
+    .sub-title_large {
+      font-size: 40px; } }
+
+/** ANIMATIONS **/
+@keyframes blink {
+  0% {
+    opacity: 0; }
+  49% {
+    opacity: 0; }
+  50% {
+    opacity: 1; }
+  100% {
+    opacity: 1; } }
+
+@-webkit-keyframes blink {
+  0% {
+    opacity: 0; }
+  49% {
+    opacity: 0; }
+  50% {
+    opacity: 1; }
+  100% {
+    opacity: 1; } }
+
+@-moz-keyframes blink {
+  0% {
+    opacity: 0; }
+  49% {
+    opacity: 0; }
+  50% {
+    opacity: 1; }
+  100% {
+    opacity: 1; } }
+
+@-ms-keyframes blink {
+  0% {
+    opacity: 0; }
+  49% {
+    opacity: 0; }
+  50% {
+    opacity: 1; }
+  100% {
+    opacity: 1; } }
+
+@keyframes loading {
+  0% {
+    content: ''; }
+  25% {
+    content: '.'; }
+  50% {
+    content: '..'; }
+  75% {
+    content: '...'; } }
+
+@-webkit-keyframes loading {
+  0% {
+    content: ''; }
+  25% {
+    content: '.'; }
+  50% {
+    content: '..'; }
+  75% {
+    content: '...'; } }
+
+@-moz-keyframes loading {
+  0% {
+    content: ''; }
+  25% {
+    content: '.'; }
+  50% {
+    content: '..'; }
+  75% {
+    content: '...'; } }
+
+@-ms-keyframes loading {
+  0% {
+    content: ''; }
+  25% {
+    content: '.'; }
+  50% {
+    content: '..'; }
+  75% {
+    content: '...'; } }
+
+/** STYLING **/
+.text {
+  font-size: 25px; }
+  @media (min-width: 1000px) {
+    .text {
+      font-size: initial; } }
+
+.text_alert {
+  color: #BF3F3F;
+  font-size: 30px;
+  opacity: 0;
+  animation: blink 2.5s infinite linear;
+  animation-delay: 2s; }
+  @media (min-width: 1000px) {
+    .text_alert {
+      font-size: 25px; } }

@@ -1,0 +1,18 @@
+/** GLOBAL STYLING UTIL IMPORTS **/
+@import './utils/config.scss';
+@import './utils/mixins.scss';
+@import './utils/colors.scss';
+@import './utils/fonts.scss';
+@import './utils/keyframes.scss';
+@import './utils/utilClasses.scss';
+
+
+/** VUE COMPONENT STYLING IMPORTS **/
+
+// GLOBAL
+@import './components/global.scss';
+
+// TEXT
+@import './components/text/mainTitle.scss';
+@import './components/text/subTitle.scss';
+@import './components/text/regularText.scss';

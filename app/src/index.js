@@ -1,6 +1,6 @@
-
+import './assets/scss/index.scss';
 import Vue from 'vue'
-import App from './app.vue'
+import App from './assets/templates/app.vue'
 
 import Tone from 'tone'
 
