@@ -1,0 +1,88 @@
+/** ANIMATIONS **/
+@include keyframes(arrow-wobble-before) {
+    0%, 24%, 100% {
+        margin-right: 0;
+    }
+    25%, 49%, 75%, 99% {
+        margin-right: 12px;
+    }
+    50%, 74% {
+        margin-right: 24px;
+    }
+}
+
+@include keyframes(arrow-wobble-after) {
+    0%, 24%, 100% {
+        margin-left: 0;
+    }
+    25%, 49%, 75%, 99% {
+        margin-left: 12px;
+    }
+    50%, 74% {
+        margin-left: 24px;
+    }
+}
+
+/** MIXINS **/
+@mixin pseudo--header_secondary-span($content, $clr-primary, $clr-secondary) {
+    &::before,
+    &::after {
+        content: $content;
+    }
+
+    &::before {
+        color: $clr-primary;
+    }
+
+    &::after {
+        color: $clr-secondary;
+    }
+}
+
+/** STYLING **/
+.sub-title {
+    color: $clr--secondary-purple;
+    text-shadow: 2px -2px 0px $clr--primary-blue;
+
+    .sub-title_span-before,
+    .sub-title_span-after {
+        color: $clr--secondary-purple;
+    }
+
+    .sub-title_span-before {
+        @include pseudo--header_secondary-span('>', $clr--primary-blue, $clr--secondary-pink);
+    }
+
+    .sub-title_span-after {
+        @include pseudo--header_secondary-span('<', $clr--secondary-pink, $clr--primary-blue);
+    }
+}
+
+.sub-title_fade-in {
+    opacity: 0;
+
+    animation: show 0.5s linear;
+    animation-fill-mode: forwards;
+
+    .sub-title_span-before {
+        animation: arrow-wobble-before 0.5s linear 2;
+        animation-delay: 0.5s;
+    }
+
+    .sub-title_span-after {
+        animation: arrow-wobble-after 0.5s linear 2;
+        animation-delay: 0.5s;
+    }
+}
+
+.sub-title_large {
+    font-size: 33px;
+
+    @include set-style(tablet){
+        font-size: 36px;
+    }
+
+    @include set-style(laptop){
+        font-size: 40px;
+    }
+}

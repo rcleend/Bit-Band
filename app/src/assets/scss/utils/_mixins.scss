@@ -1,0 +1,36 @@
+/** 
+*   This mixin is for device specific (responsive) styling.
+*   See _config.scss for the available devices/breakpoints.
+**/
+@mixin set-style($device) { 
+  @if map-has-key($breakpoints, $device) {
+    @media (min-width: #{map-get($breakpoints, $device)}) {
+      @content;
+    }
+  }
+
+  @else {
+    @warn "Unfortunately, no value could be retrieved from `#{$device}`. "
+        + "Please make sure it is defined in `$breakpoints` map.";
+  }
+}
+
+/** 
+*   This mixin is the auto generate browser specific keyframes
+**/
+@mixin keyframes($name) {
+  @keyframes #{$name} {
+    @content;
+  };
+  @-webkit-keyframes #{$name}{
+    @content;
+  };
+  @-moz-keyframes #{$name}{
+    @content;
+  };
+  @-ms-keyframes #{$name}{
+    @content;
+  };
+}
+
+
