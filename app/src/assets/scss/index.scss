@@ -10,9 +10,7 @@
 /** VUE COMPONENT STYLING IMPORTS **/
 
 // GLOBAL
-@import './components/global.scss';
+@import './global/global.scss';
 
-// TEXT
-@import './components/text/mainTitle.scss';
-@import './components/text/subTitle.scss';
-@import './components/text/regularText.scss';
+// SECTIONS
+@import './sections/sequencer/sequencer.scss';

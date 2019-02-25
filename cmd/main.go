@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -35,6 +36,19 @@ func handle(ws *websocket.Conn) {
 			break
 		}
 
+		// Handle reply JSON
+		var replyMap map[string]interface{}
+		json.Unmarshal([]byte(reply), &replyMap)
+
+		switch replyMap["type"] {
+		case "update":
+			updatePlayer(replyMap)
+		case "delete":
+		default:
+			fmt.Println("default")
+		}
+
+		// Send reply to all clients
 		for clientList, _ := range allClients {
 			if err = websocket.Message.Send(&clientList.conn, reply); err != nil {
 				fmt.Println("Can't send")
@@ -44,6 +58,10 @@ func handle(ws *websocket.Conn) {
 		fmt.Println(len(allClients))
 
 	}
+}
+
+func updatePlayer(replyMap map[string]interface{}) {
+	fmt.Println(replyMap["data"])
 }
 
 func main() {
