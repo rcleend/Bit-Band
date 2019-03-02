@@ -1,4 +1,4 @@
-module github.com/rcleend/jr-game
+module github.com/rcleend/bitband
 
 require (
 	github.com/gorilla/websocket v1.4.0

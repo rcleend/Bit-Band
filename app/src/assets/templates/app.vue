@@ -26,7 +26,7 @@ export default {
     },
     data() {
         return {
-            currentView: "titleScreen",
+            currentView: "sequencer",
         }
     },
     created() {
