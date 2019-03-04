@@ -5,17 +5,18 @@ import (
 	"math/rand"
 )
 
-var roomsize = 4
+var bandSize = 4
 
 type Subscription struct {
 	connection *Connection
-	room       string
+	band       string
 }
 
 type hub struct {
-	rooms      map[string]map[*Connection]bool
+	bands      map[string]map[*Connection]bool
 	register   chan *Subscription
 	unregister chan *Subscription
+	broadcast  chan *Message
 }
 
 //TODO: implement real band name generator API
@@ -39,11 +40,11 @@ func (hub *hub) run() {
 		select {
 		case subscription := <-hub.register:
 			// Add connection if a room has a place left
-			for room, connections := range hub.rooms {
-				if len(connections) <= roomsize {
+			for room, connections := range hub.bands {
+				if len(connections) < bandSize {
 					subscription.room = room
 					connections[subscription.connection] = true
-					fmt.Printf("Amount of connections: %v\n", len(connections))
+					fmt.Printf("adding in bands: %v\n", hub.bands)
 					// Return to the outer loop when a new connection has been added
 					goto OuterLoop
 				}
@@ -51,23 +52,27 @@ func (hub *hub) run() {
 			// Add a new room with a new connection if no other room is available
 			room := getNewRoom()
 			subscription.room = room
-			connections := hub.rooms
+			connections := hub.bands
 			connections[room] = make(map[*Connection]bool)
 			connections[room][subscription.connection] = true
 			fmt.Printf("new room created: %v\n", room)
-			fmt.Printf("Amount of connections: %v\n", len(connections))
+			fmt.Printf("adding in bands: %v\n", hub.bands)
 
 		case subscription := <-hub.unregister:
-			// 1. if the connection is the last in the room: delete room
-			// 2. else just delete the collection from the room
-			connections := hub.rooms[subscription.room]
+			connections := hub.bands[subscription.room]
 			delete(connections, subscription.connection)
 			fmt.Printf("Amount of connections: %v\n", len(connections))
 
 			if len(connections) == 0 {
-				delete(hub.rooms, subscription.room)
-				fmt.Printf("delete room: %v", subscription.room)
+				delete(hub.bands, subscription.room)
+				fmt.Printf("delete room: %v\n", subscription.room)
 			}
+			fmt.Printf("Deleting in bands: %v\n", hub.bands)
+		case message := <-hub.broadcast:
+			fmt.Println(message)
+			// 1. Get all connections of that specific room
+			// 2. loop through all connections of that specific room
+			// 3. Send message to all connections
 		}
 	}
 }

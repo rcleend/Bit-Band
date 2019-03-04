@@ -16,7 +16,7 @@ var upgrader = websocket.Upgrader{
 }
 
 var mHub = hub{
-	rooms:      make(map[string]map[*Connection]bool),
+	bands:      make(map[string]map[*Connection]bool),
 	register:   make(chan *Subscription),
 	unregister: make(chan *Subscription),
 }
@@ -24,6 +24,7 @@ var mHub = hub{
 type Message struct {
 	Type string                 `json:"type"`
 	Data map[string]interface{} `json:"data"`
+	Room string
 }
 
 type Connection struct {
@@ -38,19 +39,6 @@ func createSubscription(socket *websocket.Conn) Subscription {
 		connection: &connection,
 	}
 	return subscription
-}
-
-func handleMessageType(message *Message) {
-	switch connType := message.Type; connType {
-	case "onConnect":
-		fmt.Println(connType)
-	case "toggleNote":
-		fmt.Println(connType)
-	default:
-		fmt.Println("default")
-	}
-
-	fmt.Println(message.Data["note"])
 }
 
 func handleConnection(w http.ResponseWriter, r *http.Request) {
@@ -75,8 +63,18 @@ func handleConnection(w http.ResponseWriter, r *http.Request) {
 			log.Println(err)
 			return
 		}
+		message.Room = subscription.room
+		fmt.Printf("message room: %v\n", message.Room)
 
-		handleMessageType(&message)
+		switch connType := message.Type; connType {
+		case "toggleNote":
+			fmt.Println(connType)
+		default:
+			fmt.Println("default")
+		}
+
+		fmt.Println(message.Data["note"])
+
 	}
 }
 
