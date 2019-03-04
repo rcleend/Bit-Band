@@ -1,6 +1,8 @@
 <template>
 <div>
     <main>
+        <h1>instrument:<span id="instrument-name--test"></span></h1>
+        <h1>band:<span id="band-name--test"></span></h1>
         <component v-bind:is="currentView"></component>
     </main>
     <footer>
@@ -45,7 +47,10 @@ export default {
 
 
         this.$sock.onmessage = (e) => { 
-            console.log("Message received")
+            var test = JSON.parse(e.data)
+            console.log(test)
+            document.getElementById("instrument-name--test").innerHTML = test.data.instrument
+            document.getElementById("band-name--test").innerHTML = test.Room
         }
         // sequence.start();
     },

@@ -16,7 +16,7 @@ var upgrader = websocket.Upgrader{
 }
 
 var mHub = hub{
-	bands:      make(map[string]map[*Connection]bool),
+	rooms:      make(map[string]map[*Connection]string),
 	register:   make(chan *Subscription),
 	unregister: make(chan *Subscription),
 }
@@ -51,7 +51,6 @@ func handleConnection(w http.ResponseWriter, r *http.Request) {
 
 	subscription := createSubscription(socket)
 	mHub.register <- &subscription
-
 	// Unregister connection when the connection is closed
 	defer func() {
 		mHub.unregister <- &subscription
@@ -74,7 +73,6 @@ func handleConnection(w http.ResponseWriter, r *http.Request) {
 		}
 
 		fmt.Println(message.Data["note"])
-
 	}
 }
 
