@@ -31,6 +31,17 @@ type Connection struct {
 	connection *websocket.Conn
 }
 
+func sendUpdateInstrumentMessage(subscription Subscription) {
+	updateInstrumentMessage := Message{
+		Type: "updateInstrument",
+		Data: make(map[string]interface{}),
+		Room: subscription.room,
+	}
+	updateInstrumentMessage.Data["instrument"] = mHub.rooms[subscription.room][subscription.connection]
+	mHub.broadcast <- &updateInstrumentMessage
+	// subscription.connection.connection.WriteJSON(updateInstrument)
+}
+
 func createSubscription(socket *websocket.Conn) Subscription {
 	connection := Connection{
 		connection: socket,
@@ -51,6 +62,7 @@ func handleConnection(w http.ResponseWriter, r *http.Request) {
 
 	subscription := createSubscription(socket)
 	mHub.register <- &subscription
+	sendUpdateInstrumentMessage(subscription)
 	// Unregister connection when the connection is closed
 	defer func() {
 		mHub.unregister <- &subscription

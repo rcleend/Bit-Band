@@ -7,11 +7,7 @@
     </main>
     <footer>
         <p class="text">
-            &#169; 2019 
-            <a href="https://github.com/rcleend">Rcleend</a> 
-            & 
-            <button id="test" @click="setCurrentView('sequencer')">Jelmuis</button>
-            . All Rights Reserved.
+            &#169; 2019 <a href="https://github.com/rcleend">Rcleend</a>. All Rights Reserved.
         </p>
     </footer>
 </div>
@@ -43,20 +39,30 @@ export default {
         //         synth.triggerAttackRelease(note, "8n", time);
         // }, sequenceSteps, "4n")
 
+        this.handleSocketMessages();
 
 
-
-        this.$sock.onmessage = (e) => { 
-            var test = JSON.parse(e.data)
-            console.log(test)
-            document.getElementById("instrument-name--test").innerHTML = test.data.instrument
-            document.getElementById("band-name--test").innerHTML = test.Room
-        }
-        // sequence.start();
+          // sequence.start();
     },
     methods: {
         setCurrentView: function(component) {
             this.$data.currentView = component; 
+        },
+        handleSocketMessages: function() {
+            this.$sock.onmessage = (e) => { 
+                var message = JSON.parse(e.data)
+                switch (message.type) {
+                    case ("updateInstrument"):
+                        this.initInstruments(message);
+                    break;
+                    default:
+                    break;
+                }
+            }
+        },
+        initInstruments: function(message) {
+            document.getElementById("instrument-name--test").innerHTML = message.data.instrument
+            document.getElementById("band-name--test").innerHTML = message.Room
         }
     }
 };

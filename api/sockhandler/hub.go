@@ -55,16 +55,6 @@ func getAvailableInstrument(connections map[*Connection]string) (string, error) 
 	return "No available instrument", errors.New("Something went wrong. No available instruments")
 }
 
-func sendUpdateInstrumentMessage(subscription Subscription) {
-	updateInstrument := Message{
-		Type: "updateInstrument",
-		Data: make(map[string]interface{}),
-		Room: subscription.room,
-	}
-	updateInstrument.Data["instrument"] = mHub.rooms[subscription.room][subscription.connection]
-	subscription.connection.connection.WriteJSON(updateInstrument)
-}
-
 func (hub *hub) run() {
 	for {
 	OuterLoop:
@@ -79,7 +69,6 @@ func (hub *hub) run() {
 						return
 					} else {
 						connections[subscription.connection] = instrument
-						sendUpdateInstrumentMessage(*subscription)
 					}
 					goto OuterLoop
 				}
@@ -90,7 +79,6 @@ func (hub *hub) run() {
 			connections := hub.rooms
 			connections[room] = make(map[*Connection]string)
 			connections[room][subscription.connection] = possibleInstruments[0]
-			sendUpdateInstrumentMessage(*subscription)
 
 		case subscription := <-hub.unregister:
 			connections := hub.rooms[subscription.room]
@@ -102,6 +90,12 @@ func (hub *hub) run() {
 
 		case message := <-hub.broadcast:
 			fmt.Println(message)
+			fmt.Println("broadcasting")
+
+			for room, instrument := range hub.rooms[message.Room] {
+				fmt.Println(room)
+				fmt.Println(instrument)
+			}
 			// 1. Get all connections of that specific room
 			// 2. loop through all connections of that specific room
 			// 3. Send message to all connections
