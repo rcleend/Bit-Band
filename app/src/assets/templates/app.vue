@@ -47,10 +47,12 @@ export default {
 
 
         this.$sock.onmessage = (e) => { 
-            var test = JSON.parse(e.data)
-            console.log(test)
-            document.getElementById("instrument-name--test").innerHTML = test.data.instrument
-            document.getElementById("band-name--test").innerHTML = test.Room
+            var test = JSON.parse(e.data);
+            console.log(test);
+            if(document.getElementById("instrument-name--test").innerHTML.length == 0){
+                document.getElementById("instrument-name--test").innerHTML = test.data.newInstrument;
+            }
+            document.getElementById("band-name--test").innerHTML = test.Band;
         }
         // sequence.start();
     },
