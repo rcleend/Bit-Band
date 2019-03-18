@@ -17,29 +17,14 @@ type hub struct {
 	broadcast  chan *Message
 }
 
-func sendUpdateInstrumentMessage(band *Band) {
-	updateInstrument := Message{
-		Type: "updateInstrument",
-		Data: make(map[string]interface{}),
-		Band: band.name,
-	}
-
-	updateInstrument.Data["newInstrument"] = band.instruments[len(band.instruments)-1]
-	updateInstrument.Data["usedInstruments"] = band.instruments
-
-	for connection, _ := range band.connections {
-		connection.connection.WriteJSON(updateInstrument)
-	}
-}
-
 func (hub *hub) run() {
 	for {
 		select {
 		case subscription := <-hub.register:
-			register(subscription, hub)
+			hub.registerSubscription(subscription)
 
 		case subscription := <-hub.unregister:
-			unregister(subscription, hub)
+			hub.unregisterSubscription(subscription)
 
 		case message := <-hub.broadcast:
 			fmt.Println(message)
@@ -50,30 +35,24 @@ func (hub *hub) run() {
 	}
 }
 
-func register(subscription *Subscription, hub *hub) {
-	for bandName, band := range hub.bands {
+func (hub *hub) registerSubscription(subscription *Subscription) {
+	for _, band := range hub.bands {
 		if len(band.connections) < len(possibleInstruments) {
-			subscription.band = bandName
+			subscription.band = band.name
 			band.addConnection(subscription)
+			SendUpdateInstrumentMessage(band, subscription)
 			return
 		}
 	}
 	newBand := CreateNewBand()
 	subscription.band = newBand.name
 	hub.bands[newBand.name] = &newBand
-	newBand.connections[subscription.connection] = possibleInstruments[0]
-	sendUpdateInstrumentMessage(&newBand)
+	newBand.connections[subscription.connection] = Instrument{Type: possibleInstruments[0]}
+	SendUpdateInstrumentMessage(&newBand, subscription)
 }
 
-func unregister(subscription *Subscription, hub *hub) {
+func (hub *hub) unregisterSubscription(subscription *Subscription) {
 	band := hub.bands[subscription.band]
-	oldInstrument := band.connections[subscription.connection]
-	for index, instrument := range band.instruments {
-		if instrument == oldInstrument {
-			band.instruments = append(band.instruments[:index], band.instruments[index+1:]...)
-			break
-		}
-	}
 
 	delete(band.connections, subscription.connection)
 	if len(band.connections) == 0 {
