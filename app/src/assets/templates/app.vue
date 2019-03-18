@@ -37,22 +37,34 @@ export default {
         // const synth = new Tone.Synth().toMaster();
 
         // let sequenceSteps = [
-        //     "C4", "E4", "F4", "G4"
+        //     "C4", "E4", "F4", "G4"j
         // ]
+
         // let sequence = new Tone.Sequence((time, note) => {
         //         synth.triggerAttackRelease(note, "8n", time);
         // }, sequenceSteps, "4n")
 
 
+        
 
 
         this.$sock.onmessage = (e) => { 
-            var test = JSON.parse(e.data);
-            console.log(test);
-            if(document.getElementById("instrument-name--test").innerHTML.length == 0){
-                document.getElementById("instrument-name--test").innerHTML = test.data.newInstrument;
+            let message = JSON.parse(e.data);
+
+            console.log(message);
+            switch(message.type) {
+                case "newInstrument":
+                    if(document.getElementById("instrument-name--test").innerHTML.length == 0){
+                        document.getElementById("instrument-name--test").innerHTML = message.data.newInstrument;
+                    }
+                    document.getElementById("band-name--test").innerHTML = message.Band;
+                    break;
+                case "removeInstrument":
+                    console.log("removingg instrumenttt!!!!")
+                    break;
+                default:
+                    console.log("something went wrong");
             }
-            document.getElementById("band-name--test").innerHTML = test.Band;
         }
         // sequence.start();
     },

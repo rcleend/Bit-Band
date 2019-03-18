@@ -21,12 +21,6 @@ var mHub = hub{
 	unregister: make(chan *Subscription),
 }
 
-type Message struct {
-	Type string                 `json:"type"`
-	Data map[string]interface{} `json:"data"`
-	Band string
-}
-
 type Connection struct {
 	connection *websocket.Conn
 }

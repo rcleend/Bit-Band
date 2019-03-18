@@ -8,8 +8,7 @@ import (
 
 type Band struct {
 	name        string
-	connections map[*Connection]string
-	instruments []string
+	connections map[*Connection]Instrument
 }
 
 var possibleInstruments = []string{"Drum", "Bass", "Rhythm", "Lead"}
@@ -17,8 +16,7 @@ var possibleInstruments = []string{"Drum", "Bass", "Rhythm", "Lead"}
 func CreateNewBand() Band {
 	band := Band{
 		name:        getNewBandName(),
-		connections: make(map[*Connection]string),
-		instruments: possibleInstruments[0:1],
+		connections: make(map[*Connection]Instrument),
 	}
 	return band
 }
@@ -36,24 +34,22 @@ func getNewBandName() string {
 }
 
 func (band *Band) addConnection(subscription *Subscription) {
-	if instrument, err := getAvailableInstrument(band); err != nil {
+	if instrument, err := band.getAvailableInstrument(); err != nil {
 		log.Fatal(err)
 		return
 	} else {
-		band.connections[subscription.connection] = instrument
-		band.instruments = append(band.instruments, instrument)
-		sendUpdateInstrumentMessage(band)
+		band.connections[subscription.connection] = Instrument{Type: instrument}
 	}
 }
 
-func getAvailableInstrument(band *Band) (string, error) {
+func (band *Band) getAvailableInstrument() (string, error) {
 	for _, instrument := range possibleInstruments {
 		index := 0
-		for _, usedInstrument := range band.instruments {
-			if usedInstrument == instrument {
+		for _, usedInstrument := range band.connections {
+			if usedInstrument.Type == instrument {
 				break
 			}
-			if index == len(band.instruments)-1 && usedInstrument != instrument {
+			if index == len(band.connections)-1 {
 				return instrument, nil
 			}
 			index++
