@@ -24,7 +24,7 @@
 }
 
 /** MIXINS **/
-@mixin pseudo--header_secondary-span($content, $clr-primary, $clr-secondary) {
+@mixin pseudo--sub-title-span($content, $clr-primary, $clr-secondary) {
     &::before,
     &::after {
         content: $content;
@@ -44,38 +44,42 @@
     color: $clr--secondary-purple;
     text-shadow: 2px -2px 0px $clr--primary-blue;
 
-    .sub-title_span-before,
-    .sub-title_span-after {
+    .sub-title--span-hightlight {
+        color: $clr--secondary-pink;
+    }
+
+    .sub-title--span-before,
+    .sub-title--span-after {
         color: $clr--secondary-purple;
     }
 
-    .sub-title_span-before {
-        @include pseudo--header_secondary-span('>', $clr--primary-blue, $clr--secondary-pink);
+    .sub-title--span-before {
+        @include pseudo--sub-title-span('>', $clr--primary-blue, $clr--secondary-pink);
     }
 
-    .sub-title_span-after {
-        @include pseudo--header_secondary-span('<', $clr--secondary-pink, $clr--primary-blue);
+    .sub-title--span-after {
+        @include pseudo--sub-title-span('<', $clr--secondary-pink, $clr--primary-blue);
     }
 }
 
-.sub-title_fade-in {
+.sub-title--fade-in {
     opacity: 0;
 
     animation: show 0.5s linear;
     animation-fill-mode: forwards;
 
-    .sub-title_span-before {
+    .sub-title--span-before {
         animation: arrow-wobble-before 0.5s linear 2;
         animation-delay: 0.5s;
     }
 
-    .sub-title_span-after {
+    .sub-title--span-after {
         animation: arrow-wobble-after 0.5s linear 2;
         animation-delay: 0.5s;
     }
 }
 
-.sub-title_large {
+.sub-title--large {
     font-size: 33px;
 
     @include set-style(tablet){

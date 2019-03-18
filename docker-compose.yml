@@ -3,11 +3,11 @@ services:
     api:
         build: . 
         volumes:
-            - .:/go/src/jr-game
+            - ./api:/go/src/jr-game
         ports: 
             - 8080:8080
         working_dir: /go/src/jr-game
-        command: go run cmd/main.go
+        command: go run main.go --race
     app:
         build: ./app
         volumes:

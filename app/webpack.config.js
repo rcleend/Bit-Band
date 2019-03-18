@@ -8,10 +8,10 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = ( env, options ) => {
 	return {
-		"mode": "production",
+		"mode": "development",
 		"entry": "./src/index.js",
 		"output": {
-			"path": __dirname+'/public/assets/',
+			"path": __dirname+'/dist/',
 			"filename": "js/app.min.js"
 		},
 		"module": {

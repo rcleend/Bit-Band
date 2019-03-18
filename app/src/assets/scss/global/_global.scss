@@ -1,3 +1,9 @@
+/** GLOBAL TEXT IMPORTS **/
+@import './text/regularText.scss';
+@import './text/mainTitle.scss';
+@import './text/subTitle.scss';
+
+/** GLOBAL STYLING **/
 * {
     font-family: 'PressStart2P', cursive;
     color: white;
