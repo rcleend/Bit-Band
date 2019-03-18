@@ -1,16 +1,14 @@
 package sockhandler
 
-import ()
-
 type Message struct {
 	Type string                 `json:"type"`
 	Data map[string]interface{} `json:"data"`
 	Band string
 }
 
-func SendUpdateInstrumentMessage(band *Band, subscription *Subscription) {
-	updateInstrument := Message{
-		Type: "updateInstrument",
+func SendNewInstrumentMessage(band *Band, subscription *Subscription) {
+	newInstrumentMessage := Message{
+		Type: "newInstrument",
 		Data: make(map[string]interface{}),
 		Band: band.name,
 	}
@@ -20,10 +18,24 @@ func SendUpdateInstrumentMessage(band *Band, subscription *Subscription) {
 		usedInstruments[instrument.Type] = instrument
 	}
 
-	updateInstrument.Data["newInstrument"] = band.connections[subscription.connection].Type
-	updateInstrument.Data["usedInstruments"] = usedInstruments
+	newInstrumentMessage.Data["newInstrument"] = band.connections[subscription.connection].Type
+	newInstrumentMessage.Data["usedInstruments"] = usedInstruments
 
 	for connection, _ := range band.connections {
-		connection.connection.WriteJSON(updateInstrument)
+		connection.connection.WriteJSON(newInstrumentMessage)
+	}
+}
+
+func SendRemoveInstrumentMessage(band *Band, subscription *Subscription) {
+	removeInstrumentMessage := Message{
+		Type: "removeInstrument",
+		Data: make(map[string]interface{}),
+		Band: band.name,
+	}
+
+	removeInstrumentMessage.Data["removedInstrument"] = band.connections[subscription.connection].Type
+
+	for connection, _ := range band.connections {
+		connection.connection.WriteJSON(removeInstrumentMessage)
 	}
 }

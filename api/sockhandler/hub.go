@@ -40,7 +40,7 @@ func (hub *hub) registerSubscription(subscription *Subscription) {
 		if len(band.connections) < len(possibleInstruments) {
 			subscription.band = band.name
 			band.addConnection(subscription)
-			SendUpdateInstrumentMessage(band, subscription)
+			SendNewInstrumentMessage(band, subscription)
 			return
 		}
 	}
@@ -48,7 +48,7 @@ func (hub *hub) registerSubscription(subscription *Subscription) {
 	subscription.band = newBand.name
 	hub.bands[newBand.name] = &newBand
 	newBand.connections[subscription.connection] = Instrument{Type: possibleInstruments[0]}
-	SendUpdateInstrumentMessage(&newBand, subscription)
+	SendNewInstrumentMessage(&newBand, subscription)
 }
 
 func (hub *hub) unregisterSubscription(subscription *Subscription) {
@@ -58,4 +58,6 @@ func (hub *hub) unregisterSubscription(subscription *Subscription) {
 	if len(band.connections) == 0 {
 		delete(hub.bands, subscription.band)
 	}
+
+	SendRemoveInstrumentMessage(band, subscription)
 }
