@@ -17,7 +17,7 @@ type hub struct {
 
 func (hub *hub) registerSubscription(subscription *subscription) {
 	for _, band := range hub.bands {
-		if len(band.connections) < len(possibleInstruments) {
+		if len(band.connections) < len(possibleInstrumentTypes) {
 			subscription.band = band.name
 			band.addConnection(subscription)
 			sendNewInstrumentMessage(hub, subscription)
@@ -27,7 +27,7 @@ func (hub *hub) registerSubscription(subscription *subscription) {
 	newBand := createNewBand()
 	subscription.band = newBand.name
 	hub.bands[newBand.name] = &newBand
-	newBand.connections[subscription.connection] = Instrument{Type: possibleInstruments[0]}
+	newBand.connections[subscription.connection] = instrument{Type: possibleInstrumentTypes[0]}
 	sendNewInstrumentMessage(hub, subscription)
 }
 

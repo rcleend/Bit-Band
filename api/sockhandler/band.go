@@ -9,15 +9,15 @@ import (
 
 type band struct {
 	name        string
-	connections map[*websocket.Conn]Instrument
+	connections map[*websocket.Conn]instrument
 }
 
-var possibleInstruments = []string{"Drum", "Bass", "Rhythm", "Lead"}
+var possibleInstrumentTypes = []string{"Drum", "Bass", "Rhythm", "Lead"}
 
 func createNewBand() band {
 	band := band{
 		name:        getNewBandName(),
-		connections: make(map[*websocket.Conn]Instrument),
+		connections: make(map[*websocket.Conn]instrument),
 	}
 	return band
 }
@@ -35,16 +35,16 @@ func getNewBandName() string {
 }
 
 func (band *band) addConnection(subscription *subscription) {
-	if instrument, err := band.getAvailableInstrument(); err != nil {
+	if instrumentType, err := band.getAvailableInstrumentType(); err != nil {
 		log.Fatal(err)
 		return
 	} else {
-		band.connections[subscription.connection] = Instrument{Type: instrument}
+		band.connections[subscription.connection] = instrument{Type: instrumentType}
 	}
 }
 
-func (band *band) getAvailableInstrument() (string, error) {
-	for _, instrument := range possibleInstruments {
+func (band *band) getAvailableInstrumentType() (string, error) {
+	for _, instrument := range possibleInstrumentTypes {
 		index := 0
 		for _, usedInstrument := range band.connections {
 			if usedInstrument.Type == instrument {

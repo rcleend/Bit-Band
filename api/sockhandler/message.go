@@ -12,18 +12,14 @@ type Message struct {
 
 func sendNewInstrumentMessage(hub *hub, subscription *subscription) {
 	band := hub.bands[subscription.band]
-	newInstrumentMessage := Message{
-		Type: "newInstrument",
-		Data: make(map[string]interface{}),
-		Band: band.name,
-	}
 
-	usedInstruments := make(map[string]Instrument)
+	usedInstruments := make(map[string]instrument)
 	for _, instrument := range band.connections {
 		usedInstruments[instrument.Type] = instrument
 	}
 
-	newInstrumentMessage.Data["newInstrument"] = band.connections[subscription.connection].Type
+	newInstrumentMessage := Message{"newInstrument", band.name, make(map[string]interface{})}
+	newInstrumentMessage.Data["newInstrumentType"] = band.connections[subscription.connection].Type
 	newInstrumentMessage.Data["usedInstruments"] = usedInstruments
 
 	broadcastMessage(band.connections, &newInstrumentMessage)
@@ -31,18 +27,14 @@ func sendNewInstrumentMessage(hub *hub, subscription *subscription) {
 
 func sendRemoveInstrumentMessage(hub *hub, subscription *subscription) {
 	band := hub.bands[subscription.band]
-	removeInstrumentMessage := Message{
-		Type: "removeInstrument",
-		Data: make(map[string]interface{}),
-		Band: band.name,
+	if band != nil {
+		removeInstrumentMessage := Message{"removeInstrument", band.name, make(map[string]interface{})}
+		removeInstrumentMessage.Data["removedInstrument"] = band.connections[subscription.connection].Type
+		broadcastMessage(band.connections, &removeInstrumentMessage)
 	}
-
-	removeInstrumentMessage.Data["removedInstrument"] = band.connections[subscription.connection].Type
-
-	broadcastMessage(band.connections, &removeInstrumentMessage)
 }
 
-func broadcastMessage(connections map[*websocket.Conn]Instrument, message *Message) {
+func broadcastMessage(connections map[*websocket.Conn]instrument, message *Message) {
 	for connection, _ := range connections {
 		connection.WriteJSON(message)
 	}

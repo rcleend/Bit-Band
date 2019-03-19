@@ -55,8 +55,9 @@ export default {
             switch(message.type) {
                 case "newInstrument":
                     if(document.getElementById("instrument-name--test").innerHTML.length == 0){
-                        document.getElementById("instrument-name--test").innerHTML = message.data.newInstrument;
+                        document.getElementById("instrument-name--test").innerHTML = message.data.newInstrumentType;
                     }
+
                     document.getElementById("band-name--test").innerHTML = message.Band;
                     break;
                 case "removeInstrument":
