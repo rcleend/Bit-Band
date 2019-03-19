@@ -2,21 +2,22 @@ package sockhandler
 
 import (
 	"errors"
+	"github.com/gorilla/websocket"
 	"log"
 	"math/rand"
 )
 
-type Band struct {
+type band struct {
 	name        string
-	connections map[*Connection]Instrument
+	connections map[*websocket.Conn]Instrument
 }
 
 var possibleInstruments = []string{"Drum", "Bass", "Rhythm", "Lead"}
 
-func CreateNewBand() Band {
-	band := Band{
+func createNewBand() band {
+	band := band{
 		name:        getNewBandName(),
-		connections: make(map[*Connection]Instrument),
+		connections: make(map[*websocket.Conn]Instrument),
 	}
 	return band
 }
@@ -33,7 +34,7 @@ func getNewBandName() string {
 	return string(b)
 }
 
-func (band *Band) addConnection(subscription *Subscription) {
+func (band *band) addConnection(subscription *subscription) {
 	if instrument, err := band.getAvailableInstrument(); err != nil {
 		log.Fatal(err)
 		return
@@ -42,7 +43,7 @@ func (band *Band) addConnection(subscription *Subscription) {
 	}
 }
 
-func (band *Band) getAvailableInstrument() (string, error) {
+func (band *band) getAvailableInstrument() (string, error) {
 	for _, instrument := range possibleInstruments {
 		index := 0
 		for _, usedInstrument := range band.connections {
