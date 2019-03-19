@@ -1,41 +1,41 @@
 package sockhandler
 
+import (
+	"github.com/gorilla/websocket"
+)
+
 type Message struct {
-	Type string                 `json:"type"`
-	Data map[string]interface{} `json:"data"`
+	Type string `json:"type"`
 	Band string
+	Data map[string]interface{} `json:"data"`
 }
 
-func SendNewInstrumentMessage(band *Band, subscription *Subscription) {
-	newInstrumentMessage := Message{
-		Type: "newInstrument",
-		Data: make(map[string]interface{}),
-		Band: band.name,
-	}
+func sendNewInstrumentMessage(hub *hub, subscription *subscription) {
+	band := hub.bands[subscription.band]
 
-	usedInstruments := make(map[string]Instrument)
+	usedInstruments := make(map[string]instrument)
 	for _, instrument := range band.connections {
 		usedInstruments[instrument.Type] = instrument
 	}
 
-	newInstrumentMessage.Data["newInstrument"] = band.connections[subscription.connection].Type
+	newInstrumentMessage := Message{"newInstrument", band.name, make(map[string]interface{})}
+	newInstrumentMessage.Data["newInstrumentType"] = band.connections[subscription.connection].Type
 	newInstrumentMessage.Data["usedInstruments"] = usedInstruments
 
-	for connection, _ := range band.connections {
-		connection.connection.WriteJSON(newInstrumentMessage)
+	broadcastMessage(band.connections, &newInstrumentMessage)
+}
+
+func sendRemoveInstrumentMessage(hub *hub, subscription *subscription) {
+	band := hub.bands[subscription.band]
+	if band != nil {
+		removeInstrumentMessage := Message{"removeInstrument", band.name, make(map[string]interface{})}
+		removeInstrumentMessage.Data["removedInstrument"] = band.connections[subscription.connection].Type
+		broadcastMessage(band.connections, &removeInstrumentMessage)
 	}
 }
 
-func SendRemoveInstrumentMessage(band *Band, subscription *Subscription) {
-	removeInstrumentMessage := Message{
-		Type: "removeInstrument",
-		Data: make(map[string]interface{}),
-		Band: band.name,
-	}
-
-	removeInstrumentMessage.Data["removedInstrument"] = band.connections[subscription.connection].Type
-
-	for connection, _ := range band.connections {
-		connection.connection.WriteJSON(removeInstrumentMessage)
+func broadcastMessage(connections map[*websocket.Conn]instrument, message *Message) {
+	for connection, _ := range connections {
+		connection.WriteJSON(message)
 	}
 }

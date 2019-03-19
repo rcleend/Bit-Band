@@ -16,63 +16,49 @@ var upgrader = websocket.Upgrader{
 }
 
 var mHub = hub{
-	bands:      make(map[string]*Band),
-	register:   make(chan *Subscription),
-	unregister: make(chan *Subscription),
+	bands:      make(map[string]*band),
+	register:   make(chan *subscription),
+	unregister: make(chan *subscription),
 }
 
-type Connection struct {
-	connection *websocket.Conn
-}
+func (subscription *subscription) handleIncomingMessage(message *Message) {
+	message.Band = subscription.band
 
-func createSubscription(socket *websocket.Conn) Subscription {
-	connection := Connection{
-		connection: socket,
+	switch connType := message.Type; connType {
+	case "toggleNote":
+
+		break
+	default:
+		fmt.Println("default")
 	}
-	subscription := Subscription{
-		connection: &connection,
-	}
-	return subscription
 }
 
-func handleConnection(w http.ResponseWriter, r *http.Request) {
-	// Upgrade http connection to a websocket connection
+func upgradeConnection(w http.ResponseWriter, r *http.Request) {
 	socket, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
-	subscription := createSubscription(socket)
+	subscription := subscription{connection: socket}
 	mHub.register <- &subscription
-	// Unregister connection when the connection is closed
+
 	defer func() {
 		mHub.unregister <- &subscription
 	}()
 	for {
 		var message Message
-		// Assign the JSON data to the message variable if there is no error
-		if err := socket.ReadJSON(&message); err != nil {
+		if err := subscription.connection.ReadJSON(&message); err != nil {
 			log.Println(err)
 			return
 		}
-		message.Band = subscription.band
-		fmt.Printf("message room: %v\n", message.Band)
-
-		switch connType := message.Type; connType {
-		case "toggleNote":
-			fmt.Println(connType)
-		default:
-			fmt.Println("default")
-		}
-
-		fmt.Println(message.Data["note"])
+		subscription.handleIncomingMessage(&message)
 	}
 }
 
 func StartConnection() {
 	go mHub.run()
-	http.HandleFunc("/", handleConnection)
+	http.HandleFunc("/", upgradeConnection)
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatal("ListenAndServe:", err)
 	}

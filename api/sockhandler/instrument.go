@@ -1,5 +1,5 @@
 package sockhandler
 
-type Instrument struct {
+type instrument struct {
 	Type string `json: "name`
 }
