@@ -5,31 +5,31 @@ import (
 )
 
 type Message struct {
-	Type string `json:"type"`
-	Band string
-	Data map[string]interface{} `json:"data"`
+	Type   string                 `json:"type"`
+	BandID int                    `json:"bandID"`
+	Data   map[string]interface{} `json:"data"`
 }
 
 func sendNewInstrumentMessage(hub *hub, subscription *subscription) {
-	band := hub.bands[subscription.band]
+	band := hub.bands[subscription.bandID]
 
 	usedInstruments := make(map[string]instrument)
 	for _, instrument := range band.connections {
-		usedInstruments[instrument.Type] = instrument
+		usedInstruments[instrument.name] = instrument
 	}
 
-	newInstrumentMessage := Message{"newInstrument", band.name, make(map[string]interface{})}
-	newInstrumentMessage.Data["newInstrumentType"] = band.connections[subscription.connection].Type
-	newInstrumentMessage.Data["usedInstruments"] = usedInstruments
+	newInstrumentMessage := Message{"newInstrument", band.id, make(map[string]interface{})}
+	newInstrumentMessage.Data["instrumentName"] = band.connections[subscription.connection].name
+	newInstrumentMessage.Data["allInstruments"] = usedInstruments
 
 	broadcastMessage(band.connections, &newInstrumentMessage)
 }
 
 func sendRemoveInstrumentMessage(hub *hub, subscription *subscription) {
-	band := hub.bands[subscription.band]
+	band := hub.bands[subscription.bandID]
 	if band != nil {
-		removeInstrumentMessage := Message{"removeInstrument", band.name, make(map[string]interface{})}
-		removeInstrumentMessage.Data["removedInstrument"] = band.connections[subscription.connection].Type
+		removeInstrumentMessage := Message{"removeInstrument", band.id, make(map[string]interface{})}
+		removeInstrumentMessage.Data["removedInstrument"] = band.connections[subscription.connection].name
 		broadcastMessage(band.connections, &removeInstrumentMessage)
 	}
 }

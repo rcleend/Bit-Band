@@ -1,16 +1,13 @@
 <template>
 <div>
     <main>
-        <h1>instrument:<span id="instrument-name--test"></span></h1>
-        <h1>band:<span id="band-name--test"></span></h1>
+        <h1>instrument:{{instrumentName}}</h1>
         <component v-bind:is="currentView"></component>
     </main>
     <footer>
         <p class="text">
             &#169; 2019 
             <a href="https://github.com/rcleend">Rcleend</a> 
-            & 
-            <button id="test" @click="setCurrentView('sequencer')">Jelmuis</button>
             . All Rights Reserved.
         </p>
     </footer>
@@ -29,6 +26,9 @@ export default {
     data() {
         return {
             currentView: "sequencer",
+            bandID: null,
+            instrumentName: null,
+            allInstruments: null
         }
     },
     created() {
@@ -50,15 +50,13 @@ export default {
 
         this.$sock.onmessage = (e) => { 
             let message = JSON.parse(e.data);
-
             console.log(message);
             switch(message.type) {
                 case "newInstrument":
-                    if(document.getElementById("instrument-name--test").innerHTML.length == 0){
-                        document.getElementById("instrument-name--test").innerHTML = message.data.newInstrumentType;
-                    }
+                    if (!this.$data.instrumentName) this.$data.instrumentName = message.data.instrumentName
+                    this.$data.allInstruments = message.data.allInstruments
+                    this.$data.bandID = message.bandID;
 
-                    document.getElementById("band-name--test").innerHTML = message.Band;
                     break;
                 case "removeInstrument":
                     console.log("removingg instrumenttt!!!!")

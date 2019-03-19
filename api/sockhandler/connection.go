@@ -16,13 +16,13 @@ var upgrader = websocket.Upgrader{
 }
 
 var mHub = hub{
-	bands:      make(map[string]*band),
+	bands:      make(map[int]*band),
 	register:   make(chan *subscription),
 	unregister: make(chan *subscription),
 }
 
 func (subscription *subscription) handleIncomingMessage(message *Message) {
-	message.Band = subscription.band
+	message.BandID = subscription.bandID
 
 	switch connType := message.Type; connType {
 	case "toggleNote":
