@@ -1,14 +1,13 @@
 <template>
 <div>
     <main>
-        <h1>instrument:{{instrumentName}}</h1>
         <component v-bind:is="currentView"></component>
     </main>
     <footer>
         <p class="text">
             &#169; 2019 
-            <a href="https://github.com/rcleend">Rcleend</a> 
-            . All Rights Reserved.
+            <a href="https://github.com/rcleend">Rcleend</a>.
+            All Rights Reserved.
         </p>
     </footer>
 </div>
@@ -25,7 +24,7 @@ export default {
     },
     data() {
         return {
-            currentView: "sequencer",
+            currentView: "titleScreen",
             bandID: null,
             instrumentName: null,
             allInstruments: null
